@@ -15,7 +15,7 @@ MonoBehaviour:
   brickName: Assets/Liquid Snake/BehaviorBricks/Behaviors/ShootPlayer.asset
   xml: "\uFEFF<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<BehaviorBricks xmlns:ref=\"urn:padaone\"
     version=\"1.0\">\r\n  <BehaviorTree id=\"0\" />\r\n  <runtimeInfo>\r\n    <BehaviorTree
-    id=\"0\" guid=\"1e3848dd138d8f8408b92514c155ce39\" nextId=\"41\">\r\n      <root>\r\n       
+    id=\"0\" guid=\"1e3848dd138d8f8408b92514c155ce39\" nextId=\"51\">\r\n      <root>\r\n       
     <RepeatDecorator id=\"30\" />\r\n      </root>\r\n      <inputParams>\r\n       
     <inputValues>\r\n          <entry name=\"target\" type=\"UnityEngine.GameObject\"
     isBlackboard=\"False\" />\r\n        </inputValues>\r\n      </inputParams>\r\n     
@@ -23,108 +23,144 @@ MonoBehaviour:
     <entry name=\"targetPosition\" type=\"UnityEngine.Vector3\" isBlackboard=\"False\"
     />\r\n        </localValues>\r\n      </localParams>\r\n    </BehaviorTree>\r\n   
     <RepeatDecorator id=\"30\" loops=\"-1\" policy=\"ContinueWhenChildFails\">\r\n     
-    <child>\r\n        <ParallelNode id=\"33\" />\r\n      </child>\r\n      <inputParams
+    <child>\r\n        <SequenceNode id=\"25\" />\r\n      </child>\r\n      <inputParams
     />\r\n      <outputParams />\r\n      <localParams />\r\n    </RepeatDecorator>\r\n   
-    <ParallelNode id=\"33\" policy=\"OrPolicy\">\r\n      <children>\r\n        <elem>\r\n         
-    <SequenceNode id=\"37\" />\r\n        </elem>\r\n        <elem>\r\n         
-    <SequenceNode id=\"25\" />\r\n        </elem>\r\n      </children>\r\n      <inputParams
-    />\r\n      <outputParams />\r\n      <localParams />\r\n    </ParallelNode>\r\n   
-    <SequenceNode id=\"37\">\r\n      <children>\r\n        <elem>\r\n          <ActionNode
-    id=\"39\" />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode id=\"34\"
-    />\r\n        </elem>\r\n      </children>\r\n      <inputParams />\r\n     
-    <outputParams />\r\n      <localParams />\r\n    </SequenceNode>\r\n    <SequenceNode
-    id=\"25\">\r\n      <children>\r\n        <elem>\r\n          <ActionNode id=\"23\"
-    />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode id=\"40\" />\r\n       
-    </elem>\r\n      </children>\r\n      <inputParams />\r\n      <outputParams
-    />\r\n      <localParams />\r\n    </SequenceNode>\r\n    <ActionNode id=\"39\"
-    action=\"LiquidSnake/SetPlayerPosition\">\r\n      <inputParams>\r\n        <inputValues>\r\n         
-    <entry name=\"target\" type=\"UnityEngine.GameObject\" isBlackboard=\"True\"
-    blackboard=\"target\" />\r\n        </inputValues>\r\n      </inputParams>\r\n     
-    <outputParams>\r\n        <outputValues>\r\n          <entry name=\"targetPosition\"
-    type=\"UnityEngine.Vector3\" isBlackboard=\"True\" blackboard=\"targetPosition\"
-    />\r\n        </outputValues>\r\n      </outputParams>\r\n      <localParams
-    />\r\n    </ActionNode>\r\n    <ActionNode id=\"34\" action=\"Navigation/MoveToPosition\">\r\n     
-    <inputParams>\r\n        <inputValues>\r\n          <entry name=\"target\" type=\"UnityEngine.Vector3\"
-    isBlackboard=\"True\" blackboard=\"targetPosition\" />\r\n          <entry name=\"closeDistance\"
-    type=\"System.Single\" isBlackboard=\"False\" value=\"2\" />\r\n        </inputValues>\r\n     
-    </inputParams>\r\n      <outputParams />\r\n      <localParams />\r\n    </ActionNode>\r\n   
-    <ActionNode id=\"23\" action=\"GameObject/LookAt\">\r\n      <inputParams>\r\n       
+    <SequenceNode id=\"25\">\r\n      <children>\r\n        <elem>\r\n          <DecoratorGuard
+    id=\"42\" />\r\n        </elem>\r\n        <elem>\r\n          <DecoratorGuard
+    id=\"45\" />\r\n        </elem>\r\n        <elem>\r\n          <DecoratorGuard
+    id=\"48\" />\r\n        </elem>\r\n      </children>\r\n      <inputParams />\r\n     
+    <outputParams />\r\n      <localParams />\r\n    </SequenceNode>\r\n    <DecoratorGuard
+    id=\"42\">\r\n      <guard>\r\n        <ConditionEvalNode id=\"43\" />\r\n     
+    </guard>\r\n      <child>\r\n        <ActionNode id=\"44\" />\r\n      </child>\r\n     
+    <inputParams />\r\n      <outputParams />\r\n      <localParams />\r\n    </DecoratorGuard>\r\n   
+    <DecoratorGuard id=\"45\">\r\n      <guard>\r\n        <ConditionEvalNode id=\"46\"
+    />\r\n      </guard>\r\n      <child>\r\n        <ActionNode id=\"47\" />\r\n     
+    </child>\r\n      <inputParams />\r\n      <outputParams />\r\n      <localParams
+    />\r\n    </DecoratorGuard>\r\n    <DecoratorGuard id=\"48\">\r\n      <guard>\r\n       
+    <ConditionEvalNode id=\"49\" />\r\n      </guard>\r\n      <child>\r\n       
+    <ActionNode id=\"50\" />\r\n      </child>\r\n      <inputParams />\r\n     
+    <outputParams />\r\n      <localParams />\r\n    </DecoratorGuard>\r\n    <ConditionEvalNode
+    id=\"43\" policy=\"WAIT_UNTIL_FALSE_AND_FAIL\" name=\"Basic/CheckNull\">\r\n     
+    <inputParams>\r\n        <inputValues>\r\n          <entry name=\"objectToCheck\"
+    type=\"UnityEngine.GameObject\" isBlackboard=\"True\" blackboard=\"target\" />\r\n         
+    <entry name=\"expectedToBeNull\" type=\"System.Boolean\" isBlackboard=\"False\"
+    value=\"False\" />\r\n        </inputValues>\r\n      </inputParams>\r\n     
+    <outputParams />\r\n      <localParams />\r\n    </ConditionEvalNode>\r\n   
+    <ActionNode id=\"44\" action=\"Navigation/MoveToGameObject\">\r\n      <inputParams>\r\n       
     <inputValues>\r\n          <entry name=\"target\" type=\"UnityEngine.GameObject\"
-    isBlackboard=\"True\" blackboard=\"target\" />\r\n          <entry name=\"lookAtTargetColliderCenter\"
-    type=\"System.Boolean\" isBlackboard=\"True\" blackboard=\"lookAtTargetColliderCenter\"
-    />\r\n          <entry name=\"eyes\" type=\"UnityEngine.Transform\" isBlackboard=\"True\"
-    blackboard=\"shootPoint\" />\r\n          <entry name=\"rotationSpeed\" type=\"System.Single\"
-    isBlackboard=\"True\" blackboard=\"rotationSpeed\" />\r\n        </inputValues>\r\n     
+    isBlackboard=\"True\" blackboard=\"target\" />\r\n          <entry name=\"closeDistance\"
+    type=\"System.Single\" isBlackboard=\"False\" value=\"5\" />\r\n        </inputValues>\r\n     
     </inputParams>\r\n      <outputParams />\r\n      <localParams />\r\n    </ActionNode>\r\n   
-    <ActionNode id=\"40\" action=\"LiquidSnake/Enemies/ShootTarget\">\r\n      <inputParams>\r\n       
+    <ConditionEvalNode id=\"46\" policy=\"WAIT_UNTIL_FALSE_AND_FAIL\" name=\"Basic/CheckNull\">\r\n     
+    <inputParams>\r\n        <inputValues>\r\n          <entry name=\"objectToCheck\"
+    type=\"UnityEngine.GameObject\" isBlackboard=\"True\" blackboard=\"target\" />\r\n         
+    <entry name=\"expectedToBeNull\" type=\"System.Boolean\" isBlackboard=\"False\"
+    value=\"False\" />\r\n        </inputValues>\r\n      </inputParams>\r\n     
+    <outputParams />\r\n      <localParams />\r\n    </ConditionEvalNode>\r\n   
+    <ActionNode id=\"47\" action=\"GameObject/LookAt\">\r\n      <inputParams>\r\n       
+    <inputValues>\r\n          <entry name=\"target\" type=\"UnityEngine.GameObject\"
+    isBlackboard=\"True\" blackboard=\"target\" />\r\n        </inputValues>\r\n     
+    </inputParams>\r\n      <outputParams />\r\n      <localParams />\r\n    </ActionNode>\r\n   
+    <ConditionEvalNode id=\"49\" policy=\"WAIT_UNTIL_FALSE_AND_FAIL\" name=\"Basic/CheckNull\">\r\n     
+    <inputParams>\r\n        <inputValues>\r\n          <entry name=\"objectToCheck\"
+    type=\"UnityEngine.GameObject\" isBlackboard=\"True\" blackboard=\"target\" />\r\n         
+    <entry name=\"expectedToBeNull\" type=\"System.Boolean\" isBlackboard=\"False\"
+    value=\"False\" />\r\n        </inputValues>\r\n      </inputParams>\r\n     
+    <outputParams />\r\n      <localParams />\r\n    </ConditionEvalNode>\r\n   
+    <ActionNode id=\"50\" action=\"LiquidSnake/Enemies/ShootTarget\">\r\n      <inputParams>\r\n       
     <inputValues>\r\n          <entry name=\"target\" type=\"UnityEngine.GameObject\"
     isBlackboard=\"True\" blackboard=\"target\" />\r\n        </inputValues>\r\n     
     </inputParams>\r\n      <outputParams />\r\n      <localParams />\r\n    </ActionNode>\r\n 
     </runtimeInfo>\r\n  <editorInfo>\r\n    <BehaviorTree id=\"0\" _name=\"LiquidSnake/ShootPlayer\"
     _description=\"\" _removeIfClosed=\"False\">\r\n      <_rootList>\r\n       
-    <elem>\r\n          <ActionNode id=\"23\" />\r\n        </elem>\r\n        <elem>\r\n         
-    <SequenceNode id=\"25\" />\r\n        </elem>\r\n        <elem>\r\n         
-    <RepeatDecorator id=\"30\" />\r\n        </elem>\r\n        <elem>\r\n         
-    <ParallelNode id=\"33\" />\r\n        </elem>\r\n        <elem>\r\n         
-    <ActionNode id=\"34\" />\r\n        </elem>\r\n        <elem>\r\n          <SequenceNode
-    id=\"37\" />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode id=\"39\"
-    />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode id=\"40\" />\r\n       
-    </elem>\r\n      </_rootList>\r\n      <_nodes>\r\n        <nodes>\r\n         
-    <ActionNode id=\"40\" />\r\n          <ActionNode id=\"23\" />\r\n          <SequenceNode
-    id=\"25\" />\r\n          <RepeatDecorator id=\"30\" />\r\n          <SequenceNode
-    id=\"37\" />\r\n          <ParallelNode id=\"33\" />\r\n          <ActionNode
-    id=\"34\" />\r\n          <ActionNode id=\"39\" />\r\n        </nodes>\r\n     
-    </_nodes>\r\n    </BehaviorTree>\r\n    <RepeatDecorator id=\"30\">\r\n     
-    <_data>\r\n        <data breakpoint=\"0\" selected=\"False\" position=\"991.6668
-    346.6667\" name=\"Repeat\" description=\"Repeats the execution of its child node\"
+    <elem>\r\n          <SequenceNode id=\"25\" />\r\n        </elem>\r\n       
+    <elem>\r\n          <RepeatDecorator id=\"30\" />\r\n        </elem>\r\n       
+    <elem>\r\n          <DecoratorGuard id=\"42\" />\r\n        </elem>\r\n       
+    <elem>\r\n          <ConditionEvalNode id=\"43\" />\r\n        </elem>\r\n       
+    <elem>\r\n          <ActionNode id=\"44\" />\r\n        </elem>\r\n        <elem>\r\n         
+    <DecoratorGuard id=\"45\" />\r\n        </elem>\r\n        <elem>\r\n         
+    <ConditionEvalNode id=\"46\" />\r\n        </elem>\r\n        <elem>\r\n         
+    <ActionNode id=\"47\" />\r\n        </elem>\r\n        <elem>\r\n          <DecoratorGuard
+    id=\"48\" />\r\n        </elem>\r\n        <elem>\r\n          <ConditionEvalNode
+    id=\"49\" />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode id=\"50\"
+    />\r\n        </elem>\r\n      </_rootList>\r\n      <_nodes>\r\n        <nodes>\r\n         
+    <DecoratorGuard id=\"48\" />\r\n          <SequenceNode id=\"25\" />\r\n         
+    <RepeatDecorator id=\"30\" />\r\n          <DecoratorGuard id=\"42\" />\r\n         
+    <ConditionEvalNode id=\"43\" />\r\n          <ActionNode id=\"44\" />\r\n         
+    <DecoratorGuard id=\"45\" />\r\n          <ConditionEvalNode id=\"46\" />\r\n         
+    <ActionNode id=\"47\" />\r\n          <ConditionEvalNode id=\"49\" />\r\n         
+    <ActionNode id=\"50\" />\r\n        </nodes>\r\n      </_nodes>\r\n    </BehaviorTree>\r\n   
+    <RepeatDecorator id=\"30\">\r\n      <_data>\r\n        <data breakpoint=\"0\"
+    selected=\"False\" position=\"798.8102 102.3808\" name=\"Repeat\" description=\"Repeats
+    the execution of its child node\" cardinality=\"1\" hasParent=\"False\">\r\n         
+    <BehaviorTree id=\"0\" />\r\n          <RepeatDecorator id=\"30\" />\r\n       
+    </data>\r\n      </_data>\r\n    </RepeatDecorator>\r\n    <SequenceNode id=\"25\">\r\n     
+    <_data>\r\n        <data breakpoint=\"0\" selected=\"False\" position=\"775.1359
+    300.3555\" name=\"Sequence\" description=\"Executes all its children in sequence
+    until all of them are successful\" cardinality=\"-1\" hasParent=\"True\">\r\n         
+    <BehaviorTree id=\"0\" />\r\n          <RepeatDecorator id=\"36\" />\r\n         
+    <RepeatDecorator id=\"30\" />\r\n        </data>\r\n      </_data>\r\n    </SequenceNode>\r\n   
+    <DecoratorGuard id=\"42\">\r\n      <_data>\r\n        <data breakpoint=\"0\"
+    selected=\"False\" position=\"382.8566 523.8093\" name=\"Guard\" description=\"Guard\"
+    cardinality=\"1\" hasParent=\"True\">\r\n          <BehaviorTree id=\"0\" />\r\n         
+    <DecoratorGuard id=\"42\" />\r\n          <SequenceNode id=\"25\" />\r\n       
+    </data>\r\n      </_data>\r\n    </DecoratorGuard>\r\n    <DecoratorGuard id=\"45\">\r\n     
+    <_data>\r\n        <data breakpoint=\"0\" selected=\"False\" position=\"764.2861
+    513.8098\" name=\"Guard\" description=\"Guard\" cardinality=\"1\" hasParent=\"True\">\r\n         
+    <BehaviorTree id=\"0\" />\r\n          <DecoratorGuard id=\"45\" />\r\n         
+    <SequenceNode id=\"25\" />\r\n        </data>\r\n      </_data>\r\n    </DecoratorGuard>\r\n   
+    <DecoratorGuard id=\"48\">\r\n      <_data>\r\n        <data breakpoint=\"0\"
+    selected=\"False\" position=\"1060.001 525.2383\" name=\"Guard\" description=\"Guard\"
+    cardinality=\"1\" hasParent=\"True\">\r\n          <BehaviorTree id=\"0\" />\r\n         
+    <DecoratorGuard id=\"48\" />\r\n          <SequenceNode id=\"25\" />\r\n       
+    </data>\r\n      </_data>\r\n    </DecoratorGuard>\r\n    <ConditionEvalNode
+    id=\"43\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"True\"
+    position=\"382.8566 523.8093\" name=\"Basic/CheckNull\" description=\"Eval\"
     cardinality=\"1\" hasParent=\"False\">\r\n          <BehaviorTree id=\"0\" />\r\n         
-    <RepeatDecorator id=\"30\" />\r\n        </data>\r\n      </_data>\r\n    </RepeatDecorator>\r\n   
-    <ParallelNode id=\"33\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
-    position=\"980.0004 488.3333\" name=\"Parallel\" description=\"Executes all its
+    <ConditionEvalNode id=\"43\" />\r\n        </data>\r\n      </_data>\r\n    </ConditionEvalNode>\r\n   
+    <ActionNode id=\"44\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
+    position=\"382.8566 523.8093\" name=\"Navigation/MoveToGameObject\" description=\"Moves
+    the game object towards a given target by using a NavMeshAgent\" cardinality=\"0\"
+    hasParent=\"False\">\r\n          <BehaviorTree id=\"0\" />\r\n          <ActionNode
+    id=\"44\" />\r\n        </data>\r\n      </_data>\r\n    </ActionNode>\r\n   
+    <ConditionEvalNode id=\"46\">\r\n      <_data>\r\n        <data breakpoint=\"0\"
+    selected=\"False\" position=\"764.2861 513.8098\" name=\"Basic/CheckNull\" description=\"Eval\"
+    cardinality=\"1\" hasParent=\"False\">\r\n          <BehaviorTree id=\"0\" />\r\n         
+    <ConditionEvalNode id=\"46\" />\r\n        </data>\r\n      </_data>\r\n    </ConditionEvalNode>\r\n   
+    <ActionNode id=\"47\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
+    position=\"764.2861 513.8098\" name=\"GameObject/LookAt\" description=\"Rotates
+    the transform so the forward vector of the game object points at target's current
+    position\" cardinality=\"0\" hasParent=\"False\">\r\n          <BehaviorTree
+    id=\"0\" />\r\n          <ActionNode id=\"47\" />\r\n        </data>\r\n     
+    </_data>\r\n    </ActionNode>\r\n    <ConditionEvalNode id=\"49\">\r\n      <_data>\r\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"1060.001 525.2383\" name=\"Basic/CheckNull\"
+    description=\"Eval\" cardinality=\"1\" hasParent=\"False\">\r\n          <BehaviorTree
+    id=\"0\" />\r\n          <ConditionEvalNode id=\"49\" />\r\n        </data>\r\n     
+    </_data>\r\n    </ConditionEvalNode>\r\n    <ActionNode id=\"50\">\r\n      <_data>\r\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"1060.001 525.2383\" name=\"LiquidSnake/Enemies/ShootTarget\"
+    description=\"Triggerea la acci\xF3n de disparo del enemigo, si es posible, en
+    direcci\xF3n al objetivo especificado.\" cardinality=\"0\" hasParent=\"False\">\r\n         
+    <BehaviorTree id=\"0\" />\r\n          <ActionNode id=\"50\" />\r\n        </data>\r\n     
+    </_data>\r\n    </ActionNode>\r\n  </editorInfo>\r\n  <runtimeInfo>\r\n    <RepeatDecorator
+    id=\"36\" loops=\"-1\" policy=\"ContinueWhenChildFails\">\r\n      <child>\r\n       
+    <SequenceNode id=\"25\" />\r\n      </child>\r\n      <inputParams />\r\n     
+    <outputParams />\r\n      <localParams />\r\n    </RepeatDecorator>\r\n  </runtimeInfo>\r\n 
+    <editorInfo>\r\n    <RepeatDecorator id=\"36\">\r\n      <_data>\r\n        <data
+    breakpoint=\"0\" selected=\"True\" position=\"1168.334 598.3331\" name=\"Repeat\"
+    description=\"Repeats the execution of its child node\" cardinality=\"1\" hasParent=\"True\">\r\n         
+    <BehaviorTree id=\"0\" />\r\n          <RepeatDecorator id=\"36\" />\r\n         
+    <ParallelNode id=\"33\" />\r\n        </data>\r\n      </_data>\r\n    </RepeatDecorator>\r\n 
+    </editorInfo>\r\n  <runtimeInfo>\r\n    <ParallelNode id=\"33\" policy=\"OrPolicy\">\r\n     
+    <children>\r\n        <elem>\r\n          <DecoratorGuard id=\"42\" />\r\n       
+    </elem>\r\n        <elem>\r\n          <SequenceNode id=\"25\" />\r\n       
+    </elem>\r\n      </children>\r\n      <inputParams />\r\n      <outputParams
+    />\r\n      <localParams />\r\n    </ParallelNode>\r\n  </runtimeInfo>\r\n  <editorInfo>\r\n   
+    <ParallelNode id=\"33\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"True\"
+    position=\"671.4294 212.6189\" name=\"Parallel\" description=\"Executes all its
     children in parallel until all of them are successful\" cardinality=\"-1\" hasParent=\"True\">\r\n         
     <BehaviorTree id=\"0\" />\r\n          <ParallelNode id=\"33\" />\r\n         
-    <RepeatDecorator id=\"30\" />\r\n        </data>\r\n      </_data>\r\n    </ParallelNode>\r\n   
-    <SequenceNode id=\"37\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
-    position=\"825.2378 637.1429\" name=\"Sequence\" description=\"Executes all its
-    children in sequence until all of them are successful\" cardinality=\"-1\" hasParent=\"True\">\r\n         
-    <BehaviorTree id=\"0\" />\r\n          <SequenceNode id=\"37\" />\r\n         
-    <ParallelNode id=\"33\" />\r\n        </data>\r\n      </_data>\r\n    </SequenceNode>\r\n   
-    <SequenceNode id=\"25\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
-    position=\"1175.136 621.7839\" name=\"Sequence\" description=\"Executes all its
-    children in sequence until all of them are successful\" cardinality=\"-1\" hasParent=\"True\">\r\n         
-    <BehaviorTree id=\"0\" />\r\n          <RepeatDecorator id=\"36\" />\r\n         
-    <ParallelNode id=\"33\" />\r\n        </data>\r\n      </_data>\r\n    </SequenceNode>\r\n   
-    <ActionNode id=\"39\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
-    position=\"617.1429 778.5712\" name=\"LiquidSnake/SetPlayerPosition\" description=\"Stores
-    the player position\" cardinality=\"0\" hasParent=\"True\">\r\n          <BehaviorTree
-    id=\"0\" />\r\n          <ActionNode id=\"39\" />\r\n          <SequenceNode
-    id=\"37\" />\r\n        </data>\r\n      </_data>\r\n    </ActionNode>\r\n   
-    <ActionNode id=\"34\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
-    position=\"887.3795 772.8582\" name=\"Navigation/MoveToPosition\" description=\"Moves
-    the game object to a given position by using a NavMeshAgent\" cardinality=\"0\"
-    hasParent=\"True\">\r\n          <BehaviorTree id=\"0\" />\r\n          <ActionNode
-    id=\"34\" />\r\n          <SequenceNode id=\"37\" />\r\n        </data>\r\n     
-    </_data>\r\n    </ActionNode>\r\n    <ActionNode id=\"23\">\r\n      <_data>\r\n       
-    <data breakpoint=\"0\" selected=\"False\" position=\"1126.582 771.9141\" name=\"GameObject/LookAt\"
-    description=\"Rotates the transform so the forward vector of the game object
-    points at target's current position\" cardinality=\"0\" hasParent=\"True\">\r\n         
-    <BehaviorTree id=\"0\" />\r\n          <ActionNode id=\"23\" />\r\n         
-    <SequenceNode id=\"25\" />\r\n        </data>\r\n      </_data>\r\n    </ActionNode>\r\n   
-    <ActionNode id=\"40\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"True\"
-    position=\"1284.286 765.7144\" name=\"LiquidSnake/Enemies/ShootTarget\" description=\"Triggerea
-    la acci\xF3n de disparo del enemigo, si es posible, en direcci\xF3n al objetivo
-    especificado.\" cardinality=\"0\" hasParent=\"True\">\r\n          <BehaviorTree
-    id=\"0\" />\r\n          <ActionNode id=\"40\" />\r\n          <SequenceNode
-    id=\"25\" />\r\n        </data>\r\n      </_data>\r\n    </ActionNode>\r\n  </editorInfo>\r\n 
-    <runtimeInfo>\r\n    <RepeatDecorator id=\"36\" loops=\"-1\" policy=\"ContinueWhenChildFails\">\r\n     
-    <child>\r\n        <SequenceNode id=\"25\" />\r\n      </child>\r\n      <inputParams
-    />\r\n      <outputParams />\r\n      <localParams />\r\n    </RepeatDecorator>\r\n 
-    </runtimeInfo>\r\n  <editorInfo>\r\n    <RepeatDecorator id=\"36\">\r\n     
-    <_data>\r\n        <data breakpoint=\"0\" selected=\"True\" position=\"1168.334
-    598.3331\" name=\"Repeat\" description=\"Repeats the execution of its child node\"
-    cardinality=\"1\" hasParent=\"True\">\r\n          <BehaviorTree id=\"0\" />\r\n         
-    <RepeatDecorator id=\"36\" />\r\n          <ParallelNode id=\"33\" />\r\n       
-    </data>\r\n      </_data>\r\n    </RepeatDecorator>\r\n  </editorInfo>\r\n</BehaviorBricks>"
+    <RepeatDecorator id=\"30\" />\r\n        </data>\r\n      </_data>\r\n    </ParallelNode>\r\n 
+    </editorInfo>\r\n</BehaviorBricks>"
   zoom: 0.7
   subslist: []
   _guid: 1e3848dd138d8f8408b92514c155ce39

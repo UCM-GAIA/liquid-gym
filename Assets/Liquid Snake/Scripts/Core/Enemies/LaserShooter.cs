@@ -98,6 +98,7 @@ namespace LiquidSnake.Enemies
                                         bullet, shootPoint.position,
                                         shootPoint.rotation * bullet.transform.rotation
                                     );
+            newBullet.GetComponent<Bullet>().SetOwner(gameObject);
             // Give it a velocity
             if (newBullet.GetComponent<Rigidbody>() == null)
                 // Safeguard test, altough the rigid body should be provided by the

@@ -83,7 +83,7 @@ namespace LiquidSnake.Enemies
 
         private void AssignAnimationIDs()
         {
-            _animIDSpeed = Animator.StringToHash("Speed");
+            _animIDSpeed = Animator.StringToHash("speed");
         } // AssignAnimationIDs
 
         #endregion
