@@ -97,8 +97,10 @@ namespace LiquidSnake.Enemies
         {
             gameObject.SetActive(true);
             _executor.SetBehaviorParam("currentWaypoint", initialWaypoint);
-            _executor.SetBehaviorParam("playerLost", true);
+            _executor.SetBehaviorParam("playerFound", false);
+            _executor.SetBehaviorParam("target", null);
             _navMeshAgent.Warp(initialWaypoint.position);
+            _navMeshAgent.ResetPath();
         } // Reset
         #endregion
     } // Enemy

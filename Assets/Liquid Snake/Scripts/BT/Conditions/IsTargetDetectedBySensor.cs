@@ -23,14 +23,13 @@ namespace LiquidSnake.BT.Conditions
 
         /// <summary>
         /// Comprueba si el sensor ha detectado algún objeto en su región de detección
-        /// y, en tal caso, establece el más cercano dentro de la región en closestDetectedTarget 
-        /// en la variable closestDetectedTarget.
+        /// y asigna la referencia del más cercano en closestDetectedTarget (potencilamente null)
         /// </summary>
         public override bool Check()
         {
             if (visionSensorObject != null && visionSensorObject.TryGetComponent<VisionSensor>(out var visionSensor))
             {
-                closestDetectedTarget = visionSensor.DetectClosestTarget();
+                closestDetectedTarget = visionSensor.GetClosestTarget();
                 return closestDetectedTarget != null;
             }
             return false;

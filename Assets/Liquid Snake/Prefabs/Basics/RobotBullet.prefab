@@ -54,7 +54,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 1
   m_Height: 0.48
   m_Direction: 1
   m_Center: {x: 0, y: 0.23, z: 0}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3.5
-  BulletOwner: {fileID: 0}
+  debugHits: 0
 --- !u!1001 &3924753859029169824
 PrefabInstance:
   m_ObjectHideFlags: 0

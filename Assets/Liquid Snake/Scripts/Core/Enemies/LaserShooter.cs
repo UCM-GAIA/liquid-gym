@@ -105,7 +105,11 @@ namespace LiquidSnake.Enemies
                 // prefab to set its weight.
                 newBullet.AddComponent<Rigidbody>();
 
-            newBullet.GetComponent<Rigidbody>().velocity = velocity * (target == null ? shootPoint.forward : (target.transform.position - transform.position).normalized);
+            // si el objetivo tiene un collider (lo cual normalmente será el caso), la posición objetivo será la del centro del collider
+            // para tener más precisión y garantizar que golpea lo que debe golpear para generar el hit (asumiendo que no tiene una forma extraña).
+            Collider targetCollider = target.GetComponent<Collider>();
+            Vector3 targetPos = targetCollider == null ? target.transform.position : targetCollider.bounds.center;
+            newBullet.GetComponent<Rigidbody>().velocity = velocity * (target == null ? shootPoint.forward : (targetPos - shootPoint.position).normalized);
             // reseteo del cooldown
             _timeUntilNextShoot = cooldown;
             return true;

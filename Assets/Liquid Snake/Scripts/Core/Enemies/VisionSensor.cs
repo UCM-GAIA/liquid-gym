@@ -1,7 +1,4 @@
 using LiquidSnake.Utils;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 
@@ -11,8 +8,6 @@ namespace LiquidSnake.Enemies
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class VisionSensor : MonoBehaviour, IResetteable
     {
-
-
         //----------------------------------------------------------------------------
         //                      Atributos de Inspector
         //----------------------------------------------------------------------------
@@ -46,12 +41,18 @@ namespace LiquidSnake.Enemies
         //----------------------------------------------------------------------------
         private Mesh _mesh;
         private MeshRenderer _meshRenderer;
-        private List<GameObject> _objectsInArea = new List<GameObject>();
         private Material _defaultMaterial;
+        /// <summary>
+        /// elemento detectado más cerca del punto de origen del sensor.
+        /// Si no se ha detectado nada aún, este valor es null.
+        /// </summary>
+        private GameObject _closestTarget;
 
         //----------------------------------------------------------------------------
-        //                      Ciclo de vida del componente
+        //                      reación del Mesh de Cono de visión
         //----------------------------------------------------------------------------
+
+        #region Creación del Mesh de Cono de visión
 
         private void OnValidate()
         {
@@ -90,29 +91,26 @@ namespace LiquidSnake.Enemies
                 0, 2, 4,
                 0, 4, 3,
                 0, 1, 3,
-                // 1, 2, 4,
-                // 1, 4, 3
             };
 
         } // BuildMesh
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (detectableTags.Any(other.CompareTag))
-            {
-                _objectsInArea.Add(other.gameObject);
-            }
-        } // OnTriggerEnter
+        #endregion
 
-        private void OnTriggerExit(Collider other)
-        {
-            _objectsInArea.Remove(other.gameObject);
-        } // OnTriggerExit
+        //----------------------------------------------------------------------------
+        //                       Ciclo de vida del componente
+        //----------------------------------------------------------------------------
 
-        public void Reset()
+        private void FixedUpdate()
         {
-            _objectsInArea.Clear();
-        } // Reset
+            // en cada actualización de físicas recalculamos el nuevo objetivo más cercano.
+            // TODO: Dar un poco más de control sobre frecuencia de detección y otros parámetros
+            _closestTarget = DetectClosestTarget();
+
+            // actualización de la apariencia del componente para reflejar si se ha encontrado algo o no
+            _meshRenderer = GetComponent<MeshRenderer>();
+            _meshRenderer.material = _closestTarget != null ? targetFoundMaterial : _defaultMaterial;
+        } // FixedUpdate
 
         /// <summary>
         /// Devuelve el objeto detectado más cercano al punto de origen del sensor
@@ -121,7 +119,7 @@ namespace LiquidSnake.Enemies
         /// el material del mesh renderer con el material de alerta para notificar de que
         /// el sensor está percibiendo al objetivo.
         /// </summary>
-        public GameObject DetectClosestTarget()
+        private GameObject DetectClosestTarget()
         {
             float minDistance = Mathf.Infinity;
             GameObject closest = null;
@@ -130,31 +128,57 @@ namespace LiquidSnake.Enemies
             // (desde aquí realizaremos el raycast para buscar objetos).
             Vector3 sightOrigin = transform.position + Vector3.up * verticalOffset;
 
-            foreach (var obj in _objectsInArea)
+            foreach (string tag in detectableTags)
             {
-                Vector3 targetPos = obj.transform.position + Vector3.up * 0.5f;
-                Vector3 dir = (targetPos - sightOrigin);
-                RaycastHit hit;
-                // TODO: soporte para LayerMask
-                if (Physics.Raycast(sightOrigin, dir.normalized, out hit))
+                // TODO: Ahora mismo esta comprobación es barata porque hay un único elemento con tag Player
+                // pero si cambia esta asunción puede llegar a ser una operación muy cara...
+                var objects = GameObject.FindGameObjectsWithTag(tag);
+                foreach (var obj in objects)
                 {
-                    // No hay nada que obstruya la visión desde nuestro punto hasta el objeto,
-                    // y además la distancia al objeto en cuestión es menor que la mínima registrada.
-                    if (hit.collider.gameObject == obj)
+                    Vector3 targetPos = obj.GetComponent<Collider>().bounds.center;
+                    Vector3 dir = targetPos - sightOrigin;
+                    Vector3 planarDir = new Vector3(dir.x, 0f, dir.z);
+
+                    // Check de distancia: no nos interesa nada que sobrepase la distancia de detección
+                    if (planarDir.sqrMagnitude > sensorDepth * sensorDepth) continue;
+
+                    if (Mathf.Abs(Vector3.Angle(transform.forward, planarDir)) < detectionAngles / 2)
                     {
-                        float d = dir.sqrMagnitude;
-                        if (d < minDistance)
+                        RaycastHit hit;
+                        // TODO: soporte para LayerMask
+                        if (Physics.Raycast(sightOrigin, dir, out hit))
                         {
-                            minDistance = d; closest = obj;
+                            // No hay nada que obstruya la visión desde nuestro punto hasta el objeto,
+                            // y además la distancia al objeto en cuestión es menor que la mínima registrada.
+                            if (hit.collider.gameObject == obj)
+                            {
+                                float d = dir.sqrMagnitude;
+                                if (d < minDistance)
+                                {
+                                    minDistance = d; closest = obj;
+                                }
+                            }
                         }
                     }
                 }
             }
-
-            _meshRenderer = GetComponent<MeshRenderer>();
-            _meshRenderer.material = closest != null ? targetFoundMaterial : _defaultMaterial;
             return closest;
-        } // GetClosestDetectedTarget
+        } // DetectClosestTarget
+
+        //----------------------------------------------------------------------------
+        //                       API Pública del componente
+        //----------------------------------------------------------------------------
+
+        public void Reset()
+        {
+            _closestTarget = null;
+        } // Reset
+
+        public GameObject GetClosestTarget()
+        {
+            return _closestTarget;
+        } // GetClosestTarget
+
 
     } // VisionSensor
 
