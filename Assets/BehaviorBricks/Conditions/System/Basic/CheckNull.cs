@@ -24,8 +24,8 @@ namespace BBCore.Conditions
         /// </summary>
         /// <returns>the value of compare first boolean with the second boolean.</returns>
 		public override bool Check()
-		{
-			return expectedToBeNull ? objectToCheck == null : objectToCheck != null;
-		}
+        {
+            return expectedToBeNull ? objectToCheck == null : objectToCheck != null;
+        }
     }
 }
