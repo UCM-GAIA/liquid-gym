@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace LiquidSnake.Enemies
@@ -7,5 +5,6 @@ namespace LiquidSnake.Enemies
     public class Waypoint : MonoBehaviour
     {
         public GameObject nextWaypoint;
+        public float waitingTime = 1f;
     }
 }

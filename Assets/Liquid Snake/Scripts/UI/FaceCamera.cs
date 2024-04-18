@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace LiquidSnake.UI
 {
+    [ExecuteAlways]
     public class FaceCamera : MonoBehaviour
     {
         [Tooltip("Camera to use to look at")]
